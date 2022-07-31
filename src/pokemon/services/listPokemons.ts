@@ -12,7 +12,7 @@ interface listPokemonsInterface{
     results: PokemonListInterface[]
 }
 // estou setando os botões a partir dos pokemons já existentes na API
-export async function listPokemons(): Promise<listPokemonsInterface>{
+export async function listPokemons(): Promise<listPokemonsInterface>{ //listagem dos pokemons através de uma url da API
     const endpoint = `${process.env.REACT_APP_POKEAPI}/pokemon`;
     const response = await axios.get<listPokemonsInterface>(endpoint);
 

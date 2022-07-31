@@ -3,6 +3,19 @@ import React, { useEffect, useState } from 'react';
 import { PokemonDetail } from '../pokemon/interfaces/PokemonDetail';
 import { getPokemonDetails } from '../pokemon/services/getPokemonsDetails';
 import { listPokemons, PokemonListInterface } from '../pokemon/services/listPokemons';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import { useNavigate } from 'react-router-dom';
 
 interface PokedexProps {
     
@@ -13,28 +26,62 @@ interface PokedexProps {
 export const Pokedex: React.FC<PokedexProps> = () => {
     const [pokemons, setPokemons] = useState<PokemonListInterface[]>([]);
     const [selectedPokemon, setSelectedPokemon] = useState<PokemonListInterface | undefined>(undefined);
-    const [selectedPokemonDetails, setSelectedPokemonDetails] = useState<PokemonDetail | undefined>(undefined);
+    const navigate = useNavigate();
 
     useEffect(() => {
         listPokemons().then((response) => setPokemons(response.results))
     }, []); 
 
-    useEffect(() => {
-        if(!selectedPokemon) return; // se não for nulo
-
-        getPokemonDetails(selectedPokemon.name).then((response) => setSelectedPokemonDetails(response)) 
-
-    }, [selectedPokemon]); //Ao atualizar alguma informação nessa variável, ocorrerá o efeito (ao clicar no botão, a variável de detalhes irá receber os dados do pokemon selecionado )
+    function handleClick(pokemon: PokemonListInterface){
+        navigate(`/pokemon/${pokemon.name}`);
+    } //evento handleClick que será responsável por acessar o URl de determinado nome do objeto e receberá como parâmetro a interface dos Pokemons
 
     return (
+
         <div>
-            <h1>Pokedex</h1>
+            <AppBar position="static">
+                  <Toolbar>
+                    <IconButton
+                      size="large"
+                      edge="start"
+                      color="inherit"
+                      aria-label="menu"
+                      sx={{ mr: 2 }}
+                    >
+                      <MenuIcon />
+                    </IconButton>
+                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                      Pokedex
+                    </Typography>
+                  </Toolbar>
+            </AppBar>
 
-            Pokemons: 
-            {pokemons.map((pokemon) => <button onClick={() => setSelectedPokemon(pokemon)}>{pokemon.name}</button>)} {/*Mapeamento de cada objeto(Pokemon) onde cada um será um botão */}
+            <Container maxWidth="lg">
+                <Box mt={2}>
 
-            <h2>Pokemon selecionado: {selectedPokemon?.name || "Nenhum pokemon selecionado"}</h2> {/*Se existir, retorna o nome do pokemon selecionado */}
-            {JSON.stringify(selectedPokemonDetails, undefined, 2)} {/* Busco os valores do objeto e retorno todos em forma de string na página */}
+                    <Grid container spacing={2}>
+                        {pokemons.map((pokemon) => ( //Mapeamento de cada pokemon, onde cada um será um botão e também será passado para chamar o handleClick
+                            <>
+                                <Grid item xs={6} lg={3}> 
+                                    <Card sx={{ minWidth: 275 }}>
+                                    <CardContent>
+                                        <Typography variant="h5" component="div">
+                                            {pokemon.name}
+                                        </Typography>
+                                    </CardContent>
+                                    <CardActions>
+                                        <Button onClick={() => handleClick(pokemon) }size="small">Abrir</Button> 
+                                    </CardActions>
+                                    </Card>   
+                                </Grid> 
+                                
+                            </>
+                        ))}
+                        
+                    </Grid>
+
+                   </Box>
+            </Container>
         </div>
     );
 };
