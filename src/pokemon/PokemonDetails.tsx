@@ -49,12 +49,42 @@ export const PokemonDetails: React.FC<PokemonDetailsProps> = () => {
             <Container maxWidth="lg">
                 <Box mt={2}>
 
-                    <img src={selectedPokemonDetails?.sprites.front_default} alt="" />
+                    <img width='100%' height='auto' src={selectedPokemonDetails?.sprites.front_default} alt="" />
 
                     {/* <h2>Pokemon selecionado: {selectedPokemon?.name || "Nenhum pokemon selecionado"}</h2>  */}
                     
-                    {JSON.stringify(selectedPokemonDetails?.sprites.front_default, undefined, 2)} {/*Se existir, retorna o sprite do pokemon selecionado */}
+                    <Typography variant='h2'>
+                      {selectedPokemonDetails?.name} {/*Se existir, retorna o sprite do pokemon selecionado */}
+                    </Typography>
+                    
+                      {selectedPokemonDetails?.types.map((type) => <Typography>{type.type.name}</Typography>)} {/*Se existir, retorna o sprite do pokemon selecionado */}
+                    
+                    <Box display='flex' flexDirection='row'>
+                      <Typography>
+                        Altura:
+                      </Typography>
+                      <Typography>
+                      {selectedPokemonDetails?.height}
+                      </Typography>
+                    </Box>
+                    <Box display='flex' flexDirection='row'>
+                      <Typography>
+                        Peso:
+                      </Typography>
+                      <Typography>
+                      {selectedPokemonDetails?.weight}
+                      </Typography>
+                    </Box>
+                    <Box display='flex' flexDirection='row'>
+                      <Typography>
+                        Espécie:
+                      </Typography>
+                      <Typography>
+                      {selectedPokemonDetails?.species.name}
+                      </Typography>
+                    </Box>
 
+                    {selectedPokemonDetails?.abilities.map((ability) => <Typography>{ability.ability.name}</Typography>)}
                 </Box>
             </Container>
             

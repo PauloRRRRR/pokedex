@@ -16,6 +16,7 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import { useNavigate } from 'react-router-dom';
+import PokedexCard from './components/PokedexCard';
 
 interface PokedexProps {
     
@@ -31,10 +32,6 @@ export const Pokedex: React.FC<PokedexProps> = () => {
     useEffect(() => {
         listPokemons().then((response) => setPokemons(response.results))
     }, []); 
-
-    function handleClick(pokemon: PokemonListInterface){
-        navigate(`/pokemon/${pokemon.name}`);
-    } //evento handleClick que será responsável por acessar o URl de determinado nome do objeto e receberá como parâmetro a interface dos Pokemons
 
     return (
 
@@ -63,16 +60,7 @@ export const Pokedex: React.FC<PokedexProps> = () => {
                         {pokemons.map((pokemon) => ( //Mapeamento de cada pokemon, onde cada um será um botão e também será passado para chamar o handleClick
                             <>
                                 <Grid item xs={6} lg={3}> 
-                                    <Card sx={{ minWidth: 275 }}>
-                                    <CardContent>
-                                        <Typography variant="h5" component="div">
-                                            {pokemon.name}
-                                        </Typography>
-                                    </CardContent>
-                                    <CardActions>
-                                        <Button onClick={() => handleClick(pokemon) }size="small">Abrir</Button> 
-                                    </CardActions>
-                                    </Card>   
+                                    <PokedexCard pokemon={pokemon}/>
                                 </Grid> 
                                 
                             </>
