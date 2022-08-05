@@ -1,33 +1,54 @@
-import React from 'react';
+import { Favorite } from '@mui/icons-material';
+import { Card, CardMedia, CardHeader, CardActions, IconButton } from '@mui/material';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components'
-import { PokemonListInterface } from '../../pokemon/services/listPokemons';
+import { FavoriteContext } from '../../favorites/FavoriteContext';
+import { PokemonDetail } from '../../pokemon/interfaces/PokemonDetail';
 
 interface PokedexCardProps {
-    pokemon: PokemonListInterface;
-
+  pokemon: PokemonDetail;
 }
 
-const Card = styled.section`
-    padding: 4em;
-    background: papayawhip;
-    border-radius: .5em;
-`;
+const PokedexCard: React.FC<PokedexCardProps> = ({ pokemon }) => {
+  // const { setFavorites, favorites } = useContext(FavoriteContext);
+  const history = useNavigate();
 
-export const PokedexCard: React.FC<PokedexCardProps> = ({pokemon}) => {
+  function handleClick() {
+    history(`/pokemon/${pokemon.name}`);
+  }
 
-    const navigate = useNavigate();
+  // const addPokemonToFavorite = () => {
+  //   setFavorites([...favorites, pokemon]);
+  // }
 
+  // const removePokemonFromFavorites = () => {
+  //   setFavorites(favorites.filter((poke) => poke.name !== pokemon.name));
+  // }
 
-    function handleClick(){
-        navigate(`/pokemon/${pokemon.name}`);
-    } //evento handleClick que será responsável por acessar o URl de determinado nome do objeto e receberá como parâmetro a interface dos Pokemons
+  // const isFavorite = favorites.some((poke) => poke.name === pokemon.name);
 
-    return (
-        <Card onClick={handleClick}>
-            {pokemon.name}
-        </Card>
-    );
+  return (
+    <Card>
+      <CardMedia
+        component="img"
+        alt={pokemon.name}
+        height="140"
+        image={pokemon.sprites.front_default}
+        title={pokemon.name}
+        onClick={handleClick}
+      />
+      <CardHeader
+        
+        title={pokemon.name}
+        subheader={pokemon.types.map((type) => type.type.name).join(', ')}
+      />
+      {/* <CardActions disableSpacing>
+        <IconButton onClick={() => isFavorite ? removePokemonFromFavorites() : addPokemonToFavorite()} aria-label="add to favorites">
+          <Favorite color={isFavorite ? `error` : `disabled`} />
+        </IconButton>
+      </CardActions> */}
+    </Card>
+  );
 };
 
 export default PokedexCard;

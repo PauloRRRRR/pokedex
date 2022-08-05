@@ -7,7 +7,6 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import { useParams } from 'react-router-dom';
 
@@ -42,7 +41,6 @@ export const PokemonDetails: React.FC<PokemonDetailsProps> = () => {
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                       Pokemon selecionado: {name}
                     </Typography>
-                    <Button color="inherit">Login</Button>
                   </Toolbar>
             </AppBar>
 
